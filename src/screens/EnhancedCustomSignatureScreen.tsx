@@ -36,8 +36,8 @@ import {
   SafeAreaView,
   Alert,
   Dimensions,
-  Clipboard,
 } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import CustomSignature from '../components/CustomSignature';
 
 // Get device width for responsive sizing

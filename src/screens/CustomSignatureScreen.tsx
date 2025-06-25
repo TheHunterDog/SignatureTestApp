@@ -8,6 +8,7 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import CustomSignature from '../components/CustomSignature';
 
 const {width} = Dimensions.get('window');
@@ -32,6 +33,18 @@ const CustomSignatureScreen: React.FC = () => {
     if (signatureData) {
       Alert.alert('Success', 'Signature captured successfully!');
       console.log('Signature SVG path data:', signatureData);
+    } else {
+      Alert.alert('Error', 'Please provide a signature first');
+    }
+  };
+
+  const copySVG = () => {
+    if (signatureData) {
+      const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="${width - 80}" height="300" viewBox="0 0 ${width - 80} 300">
+  <path d="${signatureData}" stroke="#000000" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+      Clipboard.setString(svgData);
+      Alert.alert('Success', 'SVG copied to clipboard!');
     } else {
       Alert.alert('Error', 'Please provide a signature first');
     }
@@ -62,6 +75,13 @@ const CustomSignatureScreen: React.FC = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={clearSignature}>
           <Text style={styles.buttonText}>Clear</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.button, styles.copyButton]} 
+          onPress={copySVG}
+        >
+          <Text style={styles.buttonText}>Copy SVG</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -155,6 +175,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minWidth: 100,
     alignItems: 'center',
+  },
+  copyButton: {
+    backgroundColor: '#4CAF50',
   },
   saveButton: {
     backgroundColor: '#FF9800',

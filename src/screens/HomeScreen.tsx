@@ -31,6 +31,11 @@ type RootStackParamList = {
   Home: undefined;
   CustomSignature: undefined;
   EnhancedCustomSignature: undefined;
+  SignatureComparison: undefined;
+  SkiaSignature: undefined;
+  CanvasSignature: undefined;
+  PanResponderSignature: undefined;
+  GestureHandlerSignature: undefined;
 };
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -85,20 +90,65 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   const signatureTests = [
     {
       id: 1,
-      title: 'Enhanced Custom Signature',
-      description: 'Production-ready custom SVG implementation',
-      route: 'EnhancedCustomSignature' as const,
-      color: '#4CAF50', // Green - highest score
-      score: 95, // Excellent for production use
-      pros: 'Full control, performant, no dependencies',
+      title: 'All Implementations',
+      description: 'Compare all signature implementations side by side',
+      route: 'SignatureComparison' as const,
+      color: '#2196F3',
+      score: 100,
+      pros: 'Side-by-side comparison, performance analysis',
     },
     {
       id: 2,
-      title: 'Basic Custom Signature',
+      title: 'Skia Signature',
+      description: 'GPU-accelerated signature with React Native Skia',
+      route: 'SkiaSignature' as const,
+      color: '#2196F3',
+      score: 95,
+      pros: 'GPU acceleration, 60 FPS, advanced graphics',
+    },
+    {
+      id: 3,
+      title: 'Canvas Signature',
+      description: 'HTML5 Canvas API signature implementation',
+      route: 'CanvasSignature' as const,
+      color: '#4CAF50',
+      score: 75,
+      pros: 'Canvas API, Base64 export, web familiarity',
+    },
+    {
+      id: 4,
+      title: 'PanResponder Signature',
+      description: 'Pure React Native with PanResponder + SVG',
+      route: 'PanResponderSignature' as const,
+      color: '#FF9800',
+      score: 80,
+      pros: 'No dependencies, lightweight, SVG output',
+    },
+    {
+      id: 5,
+      title: 'Gesture Handler Signature',
+      description: 'Modern Gesture API with SVG rendering (Fixed)',
+      route: 'GestureHandlerSignature' as const,
+      color: '#9C27B0',
+      score: 70,
+      pros: 'Modern API, worklet support, no deprecation',
+    },
+    {
+      id: 6,
+      title: 'Enhanced Custom',
+      description: 'Production-ready custom SVG implementation',
+      route: 'EnhancedCustomSignature' as const,
+      color: '#4CAF50',
+      score: 95,
+      pros: 'Full control, performant, production-ready',
+    },
+    {
+      id: 7,
+      title: 'Basic Custom',
       description: 'Simple custom implementation demo',
       route: 'CustomSignature' as const,
-      color: '#9C27B0', // Purple - moderate score
-      score: 70, // Good for learning, basic functionality
+      color: '#9C27B0',
+      score: 70,
       pros: 'Learning example, basic functionality',
     },
   ];

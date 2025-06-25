@@ -27,12 +27,8 @@
 
 import React, {useState, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-  HandlerStateChangeEvent,
-  State,
-} from 'react-native-gesture-handler';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import {runOnJS} from 'react-native-reanimated';
 import Svg, {Path} from 'react-native-svg';
 
 /**
@@ -139,39 +135,28 @@ const CustomSignature: React.FC<CustomSignatureProps> = ({
   };
 
   /**
-   * Handles ongoing gesture events (finger moving)
-   * 
-   * @param event - Pan gesture event containing touch coordinates
+   * Creates a pan gesture for signature capture using the new Gesture API
    */
-  const onGestureEvent = (event: PanGestureHandlerGestureEvent) => {
-    addPoint(event.nativeEvent.x, event.nativeEvent.y);
-  };
-
-  /**
-   * Handles gesture state changes (finger down, finger up, etc.)
-   * 
-   * @param event - Handler state change event
-   */
-  const onHandlerStateChange = (event: HandlerStateChangeEvent) => {
-    // When the user lifts their finger, finalize the current path
-    if (event.nativeEvent.state === State.END) {
-      finalizePath();
-    }
-  };
+  const panGesture = Gesture.Pan()
+    .onUpdate((event) => {
+      'worklet';
+      // Use runOnJS to call functions from the UI thread
+      runOnJS(addPoint)(event.x, event.y);
+    })
+    .onEnd(() => {
+      'worklet';
+      runOnJS(finalizePath)();
+    });
 
 
   // Render the signature capture interface
   return (
     <View style={{width, height, backgroundColor}}>
       {/* 
-        PanGestureHandler captures touch gestures across the signature area
-        - onGestureEvent: Called continuously as the user moves their finger
-        - onHandlerStateChange: Called when gesture state changes (start, end, etc.)
+        GestureDetector captures touch gestures across the signature area using the new Gesture API
+        - panGesture handles touch movement and gesture end events
       */}
-      <PanGestureHandler
-        onGestureEvent={onGestureEvent}
-        onHandlerStateChange={onHandlerStateChange}
-      >
+      <GestureDetector gesture={panGesture}>
         <View style={styles.gestureContainer}>
           {/* 
             SVG container that renders the signature paths
@@ -205,7 +190,7 @@ const CustomSignature: React.FC<CustomSignatureProps> = ({
             )}
           </Svg>
         </View>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
 };

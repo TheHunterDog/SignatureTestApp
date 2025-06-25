@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(pod install:*)",
+      "Bash(npx react-native:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx @react-native-community/cli clean:*)",
+      "Bash(npm run ios:*)",
+      "Bash(bundle exec pod:*)"
+    ],
+    "deny": []
+  }
+}
